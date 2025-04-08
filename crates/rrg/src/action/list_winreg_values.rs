@@ -328,6 +328,10 @@ mod tests {
         let mut session = crate::session::FakeSession::new();
         assert!(handle(&mut session, args).is_ok());
 
+        for item in session.replies::<Item>() {
+            dbg!(&item.key, &item.value.name, &item.value.data);
+        }
+
         assert! {
             // Okay, depth 2.
             session.replies::<Item>().any(|item| {
