@@ -281,6 +281,17 @@ impl Request {
     }
 }
 
+/// An unvalidated RRG action request.
+///
+/// This type is useful because the serialized request we got from Fleetspeak
+/// might contain deserializable request bytes but of which individual fields
+/// can be not fully valid. In that case we still want to be able to reply to
+/// the server (as we do have some request identifier) and report the error.
+/// This is unlike the case were request is completely borked and we have no
+/// choice but drop it on the floor.
+///
+/// The [`RequestUnvalidated::validate`] method can be used to turn it into a
+/// proper [`Request`].
 pub struct RequestUnvalidated {
     proto: rrg_proto::rrg::Request,
 }
@@ -303,6 +314,7 @@ impl RequestUnvalidated {
         })
     }
 
+    /// Returns a unique identifier of this request.
     pub fn id(&self) -> RequestId {
         RequestId {
             flow_id: self.proto.flow_id(),
