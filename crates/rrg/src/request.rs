@@ -379,12 +379,6 @@ impl RequestUnvalidated {
     }
 }
 
-/// The error type for cases when parsing a request fails.
-pub enum ParseRequestError {
-    Malformed(MalformedRequestError),
-    Invalid(InvalidRequestError),
-}
-
 /// The error type for cases when bytes of serialized request were malformed.
 #[derive(Debug)]
 pub struct MalformedRequestError(protobuf::Error);
